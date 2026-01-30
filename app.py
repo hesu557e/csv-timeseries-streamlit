@@ -29,7 +29,7 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
 
-    # Read CSV
+    # Read CSV (default: first row = header)
     df = pd.read_csv(uploaded_file)
 
     st.success("File uploaded successfully!")
@@ -45,19 +45,10 @@ if uploaded_file is not None:
 
     st.subheader("Options")
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        remove_first_row = st.checkbox(
-            "Remove First Row",
-            value=False
-        )
-
-    with col2:
-        use_range = st.checkbox(
-            "Use Row Range",
-            value=False
-        )
+    use_range = st.checkbox(
+        "Use Row Range",
+        value=False
+    )
 
     # Column selection
     first_column = st.selectbox(
@@ -101,10 +92,6 @@ if uploaded_file is not None:
     if st.button("📊 Visualize"):
 
         data = df.copy()
-
-        # Remove first row
-        if remove_first_row:
-            data = data.iloc[1:]
 
         # Apply range
         if use_range:
